@@ -1,0 +1,44 @@
+enemy.h
+	role.h
+event.h
+	base.h
+	role.h 111111111111111111111111111111111             333333333
+eventmanager.h
+	event.h  66666  
+fight.h
+	place.h
+fightplace.h
+	place.h
+map.h
+	base.h
+	scene.h
+mapmanger.h
+	map.h
+	base.h
+obj.h
+	base.h
+place.h 111111111111111111111111111   CollectEvent-event
+	base.h
+	eventmanager.h   5555555555		22222222											
+placemanager.h
+	place.h          4444444444
+player.h
+	role.h
+playermanager.h
+	player.h
+	base.h
+resouceplace.h
+	place.h		 4444444444	
+role.h
+	base.h
+	scene.h   2222222222222         4444444444
+rolemanager.h
+	role.h
+	base.h
+scene.h
+	base.h
+	resouceplace.h    333333333      5555555
+	placemanager.h	  333333333	 5555555
+scenemanager.h
+	scene.h
+	base.h
