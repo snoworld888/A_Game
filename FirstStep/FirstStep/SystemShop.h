@@ -102,9 +102,14 @@ public:
 		goodInd->Num -= goods.Num; 
 		return true;
 	}
-	auto GetPlayer(uint32_t id)
+	PlayerLive* GetPlayer(uint32_t id)
 	{
-		return &m_Players[id];
+		for (auto player : m_Players)
+		{
+			if (player->GetId() == id)
+				return player;
+		}
+		return NULL;
 	}
 	bool BuyGood(uint32_t objId, uint32_t money);
 };

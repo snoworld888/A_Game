@@ -36,17 +36,18 @@ int main()
 	g_SystemShop.AddPlayer(&p);
 	p.GetResource(REQUIRE::STONE_R, 1000);
 	p.GetObj(1, 100);
+	p.GetObj(1, 101);  
 	p.GetFormulas(0);
 	//p.GetFormulas(3);
-	p.ShowResource();
-	for(int i=0;i<100;i++)
-		p.CreatObj(0); 
-	for (int i = 0; i<100; i++)
-		p.CreatObj(1);
-	for (int i = 0; i<20; i++)
-		p.CreatObj(2); 
-	for (int i = 0; i<1; i++)
-		p.CreatObj(3);
+	//p.ShowResource();
+	//for(int i=0;i<100;i++)
+	//	p.CreatObj(0); 
+	//for (int i = 0; i<100; i++)
+	//	p.CreatObj(1);
+	//for (int i = 0; i<20; i++)
+	//	p.CreatObj(2); 
+	//for (int i = 0; i<1; i++)
+	//	p.CreatObj(3);
 		
 	p.ShowResource();
 //	p.GetResourceCollectOjb(1);
@@ -64,7 +65,12 @@ int main()
 	p.Aggree(0);
 	p.Aggree(0);
 	p.Aggree(0);
+	p.ShowResource();
 	if (p.SellInShop(1, 2, 300, 100))
+	{
+		cout << p.GetName() << ":上架物品-" << g_Objs.find(100)->second.GetName() << endl;
+	}
+	if (p.SellInShop(2, 1, 300, 100))
 	{
 		cout << p.GetName() << ":上架物品-" << g_Objs.find(100)->second.GetName() << endl;
 	}
@@ -72,7 +78,30 @@ int main()
 	PlayerLive p22("player2", 2);
 	g_SystemShop.AddPlayer(&p22);
 	p22.BuyGood(100, 300);
+	p.GetObj(100, 1);
+	p.ShowResource();
+
+	if (p.SellInShop(2, 1, 300, 100))
+	{
+		cout << p.GetName() << ":上架物品-" << g_Objs.find(100)->second.GetName() << endl;
+	}
+
+	p.ShowResource();
 	p22.ShowResource();
+
+	cout << p22.GetName() << " 购买 " << g_Objs[100].GetName() << "花费: " << 300 << endl;
+	p22.BuyGood(100, 300);
+	cout << p22.GetName() << " 购买 " << g_Objs[100].GetName() << "花费: " << 300 << endl;
+	p22.BuyGood(100, 300);
+
+	p.ShowResource();
+	p22.ShowResource();
+
+	p.GetMoneyFromShop(1);
+	p.ShowResource();
+	p.GetMoneyFromShop(2);
+	p.ShowResource();
+	
 	getchar();
 	/*EventManager eventMangaer; 
 	Event *event1 = new Event("no1");

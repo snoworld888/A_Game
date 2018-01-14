@@ -12,7 +12,10 @@ bool SystemShop::BuyGood(uint32_t objId, uint32_t money)
 	goodInd->Num--;
  
 	auto playerSell = GetPlayer(goodInd->OwnerId);
-	(*playerSell)->StoreMoney(goodInd->ShopId, money*0.9);
+	if (playerSell)
+		playerSell->StoreMoney(goodInd->ShopId, money*0.9);
+	else
+		cout << "ÕÒ²»µ½Íæ¼Ò" << endl;
 
 	return true;
 }

@@ -58,3 +58,15 @@ void PlayerLive::CancelGood(uint32_t objId, uint32_t shopId)
 		cout << GetName().c_str() << ": 物品已卖出，无法取回" << endl;
 	}
 }
+
+bool PlayerLive::GetMoneyFromShop(uint32_t shopId)
+{
+	uint32_t money;
+	if (m_GoodShops[shopId].GetMoney(money))
+	{
+		m_Money += money;
+		cout << GetName().c_str() << "收获金币：" << money;
+		return true;
+	}
+	return false;
+}

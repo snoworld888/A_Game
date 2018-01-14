@@ -1,7 +1,8 @@
-﻿  System.cpp
-g:\06code\newworld20171021\a_game\firststep\firststep\system.h(53): warning C4018: “<”: 有符号/无符号不匹配
-g:\06code\newworld20171021\a_game\firststep\firststep\system.h(62): warning C4018: “<”: 有符号/无符号不匹配
-g:\06code\newworld20171021\a_game\firststep\firststep\system.h(66): warning C4244: “=”: 从“double”转换到“unsigned int”，可能丢失数据
+﻿  FirstStep.cpp
+g:\06code\newworld20171021\a_game\firststep\firststep\player.h(229): warning C4003: “RESOUCES”宏的实参不足
+g:\06code\newworld20171021\a_game\firststep\firststep\system.h(54): warning C4018: “<”: 有符号/无符号不匹配
+g:\06code\newworld20171021\a_game\firststep\firststep\system.h(63): warning C4018: “<”: 有符号/无符号不匹配
+g:\06code\newworld20171021\a_game\firststep\firststep\system.h(67): warning C4244: “=”: 从“double”转换到“unsigned int”，可能丢失数据
 g:\06code\newworld20171021\a_game\firststep\firststep\systemshop.h(50): warning C4267: “初始化”: 从“size_t”转换到“uint32_t”，可能丢失数据
   FirstStep.vcxproj -> G:\06code\NewWorld20171021\A_Game\FirstStep\x64\Debug\FirstStep.exe
   FirstStep.vcxproj -> G:\06code\NewWorld20171021\A_Game\FirstStep\x64\Debug\FirstStep.pdb (Full PDB)

@@ -13,6 +13,7 @@ struct ResourceCollectInfo
 
 extern map<uint32_t, Obj> g_Objs;
 extern map<uint32_t, ObjFormula> g_Formulas;
+ 
 static string g_SpecialObj[] = { "老鼠的牙" , "毒蛇的皮", "野猪的牙" };
 static string g_HeadObj[] = { "硬帽" , "铜帽", "铁帽", "鼠牙帽", "硬头盔",
 "铜头盔", "铁头盔", "蛇纹头盔" };
@@ -199,7 +200,7 @@ class HeroShoping
 	NUM(Id);
 	//std::random_device rd;
 	uint32_t m_ObjId;
-	map<uint32_t, Property*>* m_Player;
+	map<uint32_t, Property*>* m_PlayerObjNum;
 	uint32_t *m_PlayerMoney;
 	uint32_t m_Price;
 	map<uint32_t, Obj*> *m_playerObj;
@@ -222,7 +223,7 @@ private:
 	}
 public:
 	HeroShoping(string name, map<uint32_t, Obj*>* playerObj,map<uint32_t, Property*>* objsProperty, uint32_t* money):
-		m_Name(name), m_playerObj(playerObj), m_Player(objsProperty), m_PlayerMoney(money)
+		m_Name(name), m_playerObj(playerObj), m_PlayerObjNum(objsProperty), m_PlayerMoney(money)
 	{
 		ComeToBuy();
 	}
@@ -241,9 +242,14 @@ public:
 	}*/
 	bool Agree()
 	{
-		if ((*m_Player)[m_ObjId]->num > 0)
+		if ((*m_PlayerObjNum).end() == (*m_PlayerObjNum).find(m_ObjId))
 		{
-			(*m_Player)[m_ObjId]->num--;
+			cout << "没有此物品" << endl;
+			return false;
+		}
+		if ((*m_PlayerObjNum)[m_ObjId]->num > 0)
+		{
+			(*m_PlayerObjNum)[m_ObjId]->num--;
 			*m_PlayerMoney += m_Price;
 			cout << "成交" << endl;
 			Leave();
@@ -274,6 +280,13 @@ struct GoodsInfo
 	uint32_t TimeIndex;
 	uint32_t Num;
 	uint32_t ShopId;
+	GoodsInfo()
+	{
+		Money = 0;
+		Num = 0;
+		OwnerId = 0;
+		ShopId = 0;
+	}
 };
 class GoodShop
 {
@@ -283,8 +296,8 @@ class GoodShop
 	GoodsInfo m_good;
 	bool free;
 public:
-	GoodShop() {}
-	GoodShop(uint32_t shopId) :free(true), m_Id(shopId){
+	GoodShop():m_StoreMoney(0){}
+	GoodShop(uint32_t shopId) :free(true), m_Id(shopId), m_StoreMoney(0),m_ObjId(0){
 	}
 	
 	bool ReciveGood(uint32_t num, uint32_t money, uint32_t, uint32_t);
@@ -294,8 +307,15 @@ public:
 		m_StoreMoney += money;
 		if (m_good.Num == 0)free = true;
 	}
-
 	bool CancelGood(uint32_t objId, uint32_t &num);
+	bool GetMoney(uint32_t &money)
+	{
+		if (0==m_StoreMoney)
+			return false;
+		money = m_StoreMoney;
+		m_StoreMoney = 0;
+		return true;
+	}
 };
 
 class PlayerLive
@@ -373,6 +393,7 @@ public:
 	}
 	void GetResource(REQUIRE r, uint32_t num)
 	{
+		m_Resources[r].name = g_ResourceName[r];
 		m_Resources[r].num += num;
 	}
 	void PayResource(REQUIRE r, uint32_t num)
@@ -503,6 +524,7 @@ public:
 	}
 	void ShowResource()
 	{
+		cout << GetName().c_str() <<"包裹状态："<< endl;
 		for (auto r : m_Resources)
 		{
 			cout << r.second.name.c_str() << "-" << r.second.num << endl;
@@ -511,6 +533,8 @@ public:
 		{  
 			cout << g_Objs[o.first].GetName().c_str() << "=" << o.second->num<< endl;
 		}
+
+		cout << "拥有金钱："<<m_Money << endl;
 	}
 
 	void GetResourceCollectOjb(uint32_t id)
@@ -561,9 +585,18 @@ public:
 
 	bool SellInShop(uint32_t shopId, uint32_t num, uint32_t money, uint32_t objId)
 	{
-		if (m_ObjsProperty.end() == m_ObjsProperty.find(objId))
+		auto obj = m_ObjsProperty.find(objId);
+		if (m_ObjsProperty.end() == obj)
 			return false;
-		return m_GoodShops[shopId].ReciveGood(num, money, GetId(), objId);
+		if (obj->second->num >= num)
+		{
+			if (m_GoodShops[shopId].ReciveGood(num, money, GetId(), objId))
+			{
+				obj->second->num-=num;
+				return true;
+			}
+		}		
+		return false;		
 	}
 	void CancelSellInShop(uint32_t shopId)
 	{
@@ -572,6 +605,8 @@ public:
 	bool BuyGood(uint32_t objId, uint32_t money);
 
 	void CancelGood(uint32_t objId, uint32_t shopId);
+
+	bool GetMoneyFromShop(uint32_t shopId);
 };
 
 
